@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <body onload="start()">
+        <canvas width="600px" height="600px" id="canvas"></canvas>
+        </body>   
+
+    <script>
+        
+        //TEKEN MET MUIS
+        //window.addEventListener("load",function(arg){
+        //var canvas;
+        //var context;
+        //canvas = document.querySelector("canvas");
+        //context = canvas.getContext("2d");
+        //context.beginPath();
+        // context.moveTo(100,100);
+        // context.lineTo(1000,1000);
+        // context.stroke();
+        //canvas.addEventListener("mousemove",function(arg){
+        // context.beginPath();
+        //context.lineTo(arg.pageX,arg.pageY);
+        //context.stroke();
+        //});
+        //});
+        
+
+
+       // var canvas = document.getElementById("canvas");
+       // var ctx = canvas.getContext("2d");
+        
+
+
+
+
+
+        //RANDOM SHAPES
+        // ctx.beginPath();
+        // ctx.moveTo(100,100);
+        // ctx.lineTo(100,200);
+        // ctx.lineTo(100,200);
+        // ctx.lineTo(200,200);
+        // ctx.stroke();
+        // ctx.closePath();
+
+        // ctx.beginPath();
+		// ctx.moveTo(105,100);
+	    // ctx.lineTo(205,200);
+		// ctx.strokeStyle = "#00ff00";
+		// ctx.stroke();
+        // ctx.closePath();
+
+        // ctx.beginPath();
+		// ctx.moveTo(105,100);
+	    // ctx.lineTo(150,100);
+		// ctx.strokeStyle = "#FF4E24";
+		// ctx.stroke();
+        // ctx.closePath();
+
+        // ctx.beginPath();
+        // ctx.arc(80,100,20,0,Math.PI*2,false);
+        // ctx.fillStyle = "#403deb";
+        // ctx.strokeStyle = "#9ef542";
+        // ctx.fill();
+        // ctx.stroke();
+        // ctx.closePath();
+        
+        // ctx.beginPath();
+        // ctx.fillStyle = "#FF0000";
+        // ctx.fillRect(300,300,100,100);
+        // ctx.stroke();
+        // ctx.closePath();
+
+
+
+
+
+        //IMAGE 
+        // var img = new Image();
+        // img.src = "smiley.jpg";
+        // img.onload = function(){ctx.drawImage(img,200,0,100,100);};
+
+
+
+
+
+
+
+//KLOK
+        function start(){
+        var canvas = document.getElementById("canvas")
+        ctx = canvas.getContext('2d');    
+        Animate();
+    }
+
+
+    var graden=0;
+    function Animate(){
+        var currentdate = new Date();
+         
+        ctx.clearRect(0,0,300,300);
+        ctx.beginPath();
+        ctx.arc(150,150,103,0,Math.PI*2,true);
+        ctx.stroke();
+        graden++;
+        ctx.save();
+
+          //seconds
+        ctx.translate(150,150);
+        ctx.rotate((currentdate.getSeconds()*6)*Math.PI/180);
+        ctx.beginPath();    
+        ctx.moveTo(0,0);
+        ctx.lineTo(0,-100);        
+        ctx.stroke();
+        ctx.restore();
+        
+         //minutes
+         ctx.save();
+         ctx.translate(150,150);
+          console.log(currentdate.getMinutes());
+         ctx.rotate((currentdate.getMinutes()*6)*Math.PI/180);
+         ctx.strokeStyle="red";
+         ctx.beginPath();    
+         ctx.moveTo(0,0);
+         ctx.lineTo(0,-90);        
+         ctx.stroke();
+         ctx.restore();        
+         ctx.save();        
+        
+        // //uren
+         ctx.translate(150,150);
+         console.log(currentdate.getHours());
+         ctx.rotate((currentdate.getHours()*30)*Math.PI/180);
+         ctx.strokeStyle="green";
+         ctx.beginPath();    
+         ctx.moveTo(0,0);
+         ctx.lineTo(0,-50);        
+         ctx.stroke();
+         ctx.restore();
+         ctx.save();
+    
+           setTimeout(Animate,33);
+        }
+    </script>
+
+
+
+
+
+
+
+</html>

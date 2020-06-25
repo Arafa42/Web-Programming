@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body onload="start()">
+        <canvas width="750px" height="750px" id="cvs" style="border:1px solid #000000;"></canvas>
+    </body>
+
+
+
+
+    <script>
+
+    function start(){
+        var canvas = document.getElementById("cvs")
+        ctx = canvas.getContext('2d');    
+        Animate();
+    }
+
+
+    var rec = 50;
+    var rndms = [];
+    var randomKleur = [];
+    var kleuren = ["purple","red","blue","green","yellow"];
+
+
+    for (let i = 0; i < 5; i++) {
+        rndms[i] = Math.floor(Math.random()*650)+50;
+        randomKleur[i] = Math.floor(Math.random()*4);
+}
+
+
+    function Shape(x, y, w, h, fill) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.fill = fill;
+}
+
+
+var move=0;
+var spdX=[10,10,10,10,10];
+var rect = [];
+rect.push(new Shape(rndms[0],50,rec,rec,kleuren[randomKleur[0]]));
+rect.push(new Shape(rndms[1],200,rec,rec,kleuren[randomKleur[1]]));
+rect.push(new Shape(rndms[2],350,rec,rec,kleuren[randomKleur[2]]));
+rect.push(new Shape(rndms[3],500,rec,rec,kleuren[randomKleur[3]]));
+rect.push(new Shape(rndms[4],650,rec,rec,kleuren[randomKleur[4]]));
+
+
+function Update(){
+
+    for (let i = 0; i < rect.length; i++) {
+    rect[i].x += spdX[i];   
+        var rnd = Math.floor(Math.random()*4)+0;
+        if(rect[i].x > 700){spdX[i] = -10;rect[i].fill = kleuren[randomKleur[rnd]]}
+        if(rect[i].x < 50){spdX[i] = 10;rect[i].fill = kleuren[randomKleur[rnd]]}
+    }
+}
+
+
+
+function Animate(){
+  
+    ctx.clearRect(0,0,750,750);    
+    move++;
+
+    setInterval(Update(),100);
+
+    for (var i in rect){
+   
+        ctx.beginPath();
+        r = rect[i];
+        ctx.fillStyle = r.fill;
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(r.x-25,r.y-25);
+        ctx.rotate(Math.PI/90 * move);
+        ctx.translate(-r.x-25,-r.y-25);
+        ctx.beginPath();
+        ctx.fillRect(r.x,r.y,r.w,r.h); 
+        ctx.restore();
+        ctx.save();
+    }
+    setTimeout(Animate,33);
+}
+
+
+</script>
+</html>

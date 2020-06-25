@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <canvas id="cvs" width="500px" height="400px" style="border: 1px solid black;"></canvas>
+    </body>
+
+
+        <script>
+
+            var cvs = document.getElementById("cvs");
+            var ctx = cvs.getContext("2d");
+
+            var State = {
+            leftPaddleY : 0,
+            leftPaddleX : 10,
+            rightPaddleY : 0,
+            rightPaddleX : 470,
+            leftPaddleW : 20,
+            leftPaddleH : 80,
+            rightPaddleW : 20,
+            rightPaddleH : 80,
+            gameOver : false,
+            speed : 1,
+            ballX : 250,
+            ballY : 200,
+            dirBallX : 1,
+            dirBallY : 1,
+            };
+
+
+            cvs.addEventListener("mousemove",function(event){
+
+                State.leftPaddleY = event.clientY;
+            });
+         
+
+            function Clear(){
+                ctx.clearRect(0,0,500,400);
+            }
+
+            function paddleHit(){
+
+                return State.ballY > State.leftPaddleY && State.ballY < State.leftPaddleY+80;
+            }
+
+            function Update(){
+
+                if(State.ballX <0){State.gameOver=true;}
+
+                if(State.ballX > 470){
+                    State.dirBallX = -1;
+                    State.speed *= 1.1;
+                }
+                else if(State.ballX < 30){
+                    if(paddleHit()){
+                    State.dirBallX = 1;
+                    State.speed *= 1.1;
+                    }
+                }
+            
+
+                if(State.ballY > 400){
+                    State.dirBallY = -1;
+                }
+                else if(State.ballY < 0){
+                    State.dirBallY = 1;
+                }
+
+              State.ballX += State.dirBallX * State.speed;
+            State.ballY += State.dirBallY * State.speed;
+           
+            State.rightPaddleY = State.ballY-40;
+           
+            
+        }
+
+
+
+            function Draw(){
+
+                //BALL
+                ctx.beginPath();
+                ctx.arc(State.ballX,State.ballY, 10, 0, 2 * Math.PI);
+                ctx.fillStyle = "#FF0000";
+                ctx.fill();
+                ctx.closePath();
+ 
+                //LEFTPAD
+                ctx.beginPath();
+                ctx.fillStyle = "#000000";
+                ctx.fillRect(10,State.leftPaddleY,State.leftPaddleW,State.leftPaddleH);
+                ctx.fill();
+                ctx.closePath();
+
+                //RIGHTPAD
+                ctx.beginPath();
+                ctx.fillStyle = "#000000";
+                ctx.fillRect(470,State.rightPaddleY,State.rightPaddleW,State.rightPaddleH);
+                ctx.fill();
+                ctx.closePath();
+
+                //GAME OVER
+                if(State.gameOver){
+                    ctx.fillText("GAME OVER",200,250);
+                }
+
+            }
+
+
+      
+
+
+            function Animate(){
+
+                Clear();
+                
+                Update();
+                
+                Draw();
+
+
+            requestAnimationFrame(Animate);
+            }
+
+
+            Animate();
+
+
+
+
+        </script>
+   
+</html>
